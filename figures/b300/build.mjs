@@ -157,7 +157,7 @@ for (const side of [-1, 1]) {
 }
 for (const side of [-1, 1]) {
   for (let x = -27; x <= 27; x += 6.75) {
-    const y = side < 0 ? -58 : 52;
+    const y = side < 0 ? -50.5 : 52;
     box("board", { x: x - 1.6, y, w: 3.2, d: 5, r: 0.6 }, BOARD_TOP, 2.2, { tone: "lo" }, { name: "board.capacitor", bevel: 0 });
   }
 }
@@ -165,7 +165,7 @@ for (const side of [-1, 1]) {
   for (let i = 0; i < 6; i++) {
     const x = side < 0 ? -31.6 + i * 4.2 : 8 + i * 4.2;
     box("board", { x, y: 44, w: 2.6, d: 1.6, r: 0.2 }, BOARD_TOP, 0.6, { tone: "lo", crease: "none" }, { name: "board.resistor", bevel: 0, steps: 2 });
-    box("board", { x, y: -47.6, w: 2.6, d: 1.6, r: 0.2 }, BOARD_TOP, 0.6, { tone: "lo", crease: "none" }, { name: "board.resistor", bevel: 0, steps: 2 });
+    box("board", { x, y: -43.8, w: 2.6, d: 1.6, r: 0.2 }, BOARD_TOP, 0.6, { tone: "lo", crease: "none" }, { name: "board.resistor", bevel: 0, steps: 2 });
   }
 }
 const CONN = { x: -24, y: BOARD.y + 2.5, w: 48, d: 7, r: 0.8 };
