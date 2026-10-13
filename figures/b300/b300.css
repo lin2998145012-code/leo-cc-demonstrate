@@ -1,0 +1,261 @@
+.b3 {
+  --b3-ink: #5aa9ff;
+  --b3-ink-hi: #b9dcff;
+  --b3-scan: #eaf5ff;
+  --b3-over: var(--anatomy-red);
+  --b3-blend: screen;
+  --b3-button-hover: #232323;
+  --b3-button-ring: #ffffff14;
+  --b3-chip-ring: #ffffff12;
+  --b3-chip-on: #ffffff10;
+  --b3-lamp-off: #4a4a4a;
+  --b3-top0: var(--anatomy-top);
+  --b3-sh0: var(--anatomy-shade-0);
+  --b3-sh1: var(--anatomy-shade-1);
+  --b3-sh2: var(--anatomy-shade-2);
+  --b3-sh3: var(--anatomy-shade-3);
+  --b3-hi0: var(--anatomy-hi);
+  --b3-mid0: var(--anatomy-mid);
+}
+
+[data-theme="light"] .b3 {
+  --b3-ink: #2f6fe4;
+  --b3-ink-hi: #0b3fa8;
+  --b3-scan: #0a46d8;
+  --b3-blend: normal;
+  --b3-button-hover: #f0f0ed;
+  --b3-button-ring: #0000001a;
+  --b3-chip-ring: #00000014;
+  --b3-chip-on: #0000000a;
+  --b3-lamp-off: #c4c4c4;
+}
+
+.b3 .iso-plate {
+  padding: 52px 24px 64px;
+  overflow: hidden;
+}
+
+.b3-stage {
+  position: relative;
+  touch-action: pan-y;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.b3-stage:focus-visible {
+  outline: 1px solid var(--anatomy-muted);
+  outline-offset: 6px;
+}
+
+.b3-stage > svg,
+.b3-stage > canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.b3-glow {
+  position: absolute;
+  inset: 0;
+  height: 100% !important;
+  pointer-events: none;
+  mix-blend-mode: var(--b3-blend);
+}
+
+/* Weights stored in a memory layer: tint by how full it is (--f), brighten while read (--s). */
+.it[data-stack] {
+  --f: 0;
+  --s: 0;
+  --anatomy-top: color-mix(in srgb, var(--b3-ink) calc(var(--f) * 34% + var(--s) * 40%), var(--b3-top0));
+  --anatomy-shade-0: color-mix(in srgb, var(--b3-ink) calc(var(--f) * 22% + var(--s) * 50%), var(--b3-sh0));
+  --anatomy-shade-1: color-mix(in srgb, var(--b3-ink) calc(var(--f) * 24% + var(--s) * 52%), var(--b3-sh1));
+  --anatomy-shade-2: color-mix(in srgb, var(--b3-ink) calc(var(--f) * 26% + var(--s) * 54%), var(--b3-sh2));
+  --anatomy-shade-3: color-mix(in srgb, var(--b3-ink) calc(var(--f) * 28% + var(--s) * 56%), var(--b3-sh3));
+  --anatomy-hi: color-mix(in srgb, var(--b3-scan) calc(var(--s) * 90%), color-mix(in srgb, var(--b3-ink-hi) calc(var(--f) * 55%), var(--b3-hi0)));
+  --anatomy-mid: color-mix(in srgb, var(--b3-scan) calc(var(--s) * 90%), color-mix(in srgb, var(--b3-ink) calc(var(--f) * 50%), var(--b3-mid0)));
+}
+
+.b3-stage[data-over] .it[data-stack] {
+  --anatomy-hi: color-mix(in srgb, var(--b3-over) 70%, var(--b3-hi0));
+  --anatomy-mid: color-mix(in srgb, var(--b3-over) 50%, var(--b3-mid0));
+}
+
+/* A finished token: the two dies flash (the SVG half of the glow, also the no-WebGL fallback). */
+.it[data-die] {
+  --anatomy-top: color-mix(in srgb, var(--b3-ink) calc(var(--flash, 0) * 45%), var(--b3-top0));
+  --anatomy-hi: color-mix(in srgb, var(--b3-ink-hi) calc(var(--flash, 0) * 80%), var(--b3-hi0));
+}
+
+.b3-stage[data-focus] .it:not([data-on]):not([data-piece="stand"]) {
+  --anatomy-hi: var(--anatomy-mid);
+  --anatomy-mid: var(--anatomy-lo);
+  --b3-hi0: var(--b3-mid0);
+}
+
+.b3-stage[data-focus] .it[data-piece="stand"] {
+  --anatomy-mid: var(--anatomy-lo);
+}
+
+.it[data-on] {
+  --anatomy-hi: var(--anatomy-lit);
+  --anatomy-mid: var(--anatomy-hi);
+  --b3-hi0: var(--anatomy-lit);
+}
+
+.it[data-on]:not([data-stack]) .iso-top {
+  fill: var(--anatomy-lit-top);
+}
+
+.it[data-on]:not([data-stack]) .iso-shade {
+  fill: var(--anatomy-lit-shade);
+}
+
+.b3-controls {
+  position: absolute;
+  left: 20px;
+  bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--anatomy-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--anatomy-muted);
+}
+
+.b3-act {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  height: 28px;
+  padding: 0 13px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--anatomy-face);
+  color: var(--anatomy-strong);
+  font: inherit;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px var(--b3-button-ring);
+  transition: background 200ms var(--anatomy-ease), transform 160ms var(--anatomy-ease);
+}
+
+.b3-act:hover {
+  background: var(--b3-button-hover);
+}
+
+.b3-act:active {
+  transform: scale(0.97);
+}
+
+.b3-act:focus-visible,
+.b3-chip:focus-visible {
+  outline: 1px solid var(--anatomy-muted);
+  outline-offset: 3px;
+}
+
+.b3-lamp {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--b3-lamp-off);
+  transition: background 240ms var(--anatomy-ease), box-shadow 240ms var(--anatomy-ease);
+}
+
+.b3-act[data-state="on"] .b3-lamp {
+  background: var(--b3-ink);
+  box-shadow: 0 0 9px 1px color-mix(in srgb, var(--b3-ink) 55%, transparent);
+}
+
+.b3-choose {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 22px;
+  margin-bottom: 6px;
+}
+
+.b3-group {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.b3-label {
+  margin-right: 4px;
+  font-family: var(--anatomy-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--anatomy-muted);
+}
+
+.b3-chip {
+  padding: 5px 11px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--anatomy-muted);
+  font: 12.5px/1.3 var(--anatomy-mono);
+  cursor: pointer;
+  box-shadow: inset 0 0 0 1px var(--b3-chip-ring);
+  transition: color 160ms var(--anatomy-ease), background 160ms var(--anatomy-ease);
+}
+
+.b3-chip:hover,
+.b3-chip[data-on] {
+  color: var(--anatomy-strong);
+  background: var(--b3-chip-on);
+}
+
+.b3-chip[data-on] {
+  box-shadow: inset 0 0 0 1px var(--anatomy-mid);
+}
+
+.b3-live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .b3 .iso-plate {
+    padding: 48px 8px 88px;
+  }
+
+  .b3 .iso-plate-corner[data-corner="readout"] {
+    bottom: 46px;
+    right: 0;
+    max-width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .b3-controls {
+    left: 14px;
+    bottom: 14px;
+    gap: 8px;
+    max-width: calc(100% - 28px);
+    flex-wrap: wrap;
+  }
+
+  .b3-hint {
+    display: none;
+  }
+
+  .b3-stage {
+    width: 118%;
+    margin-left: -9%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .b3 * {
+    transition: none !important;
+  }
+}
